@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: "Product dimension table"
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+
+  - name: dim_customers
+    description: "Customer dimension table"
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: customer_unique_id
+        description: "Unique identifier for a real human user"
+
+  - name: dim_sellers
+    description: "Seller dimension table"
+    columns:
+      - name: seller_id
+        tests: [unique, not_null]
+
+  - name: fct_order_items
+    description: "Central fact table. Granularity: One row per line item."
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: seller_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_id

@@ -1,0 +1,13 @@
+olist_dbt:
+  outputs:
+    dev:
+      dataset: olist_dbt_dataset
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      location: US
+      method: oauth
+      priority: interactive
+      project: # your project ID
+      threads: 1
+      type: bigquery
+  target: dev

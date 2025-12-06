@@ -44,6 +44,7 @@ Tech stack:
 1. Local dev environment created and reproducible.
 2. Run local db creation.
 3. create a .env file for Credentials/secrets stored securely
+4. activate google cloud login
 
 # Step-by-step preparation (detailed)
 ## 1. Local dev environment created and reproducible.
@@ -60,11 +61,7 @@ Tech stack:
 ```bash
    touch .env
 ```
-
-```
-GCP_PROJECT=my-gcp-project
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
-PG_HOST=...
-PG_USER=...
-PG_PASSWORD=...
+## 4. activate google cloud login
+```bash
+    gcloud auth application-default login
 ```

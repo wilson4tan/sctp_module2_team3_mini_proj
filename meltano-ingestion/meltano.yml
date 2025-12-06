@@ -1,0 +1,60 @@
+version: 1
+default_environment: dev
+
+environments:
+- name: dev
+- name: staging
+- name: prod
+
+project_id: olist_pipeline
+
+plugins:
+  extractors:
+    - name: tap-csv
+      variant: meltanolabs
+      pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+      config:
+        infer_schema: true
+        schema_inference_limit: 5000
+        files:
+          - entity: raw_orders
+            path: db/olist_orders_dataset.csv
+            keys: [order_id]
+          - entity: raw_order_items
+            path: db/olist_order_items_dataset.csv
+            keys: [order_id, order_item_id]
+          - entity: raw_customers
+            path: db/olist_customers_dataset.csv
+            keys: [customer_id]
+          - entity: raw_products
+            path: db/olist_products_dataset.csv
+            keys: [product_id]
+          - entity: raw_sellers
+            path: db/olist_sellers_dataset.csv
+            keys: [seller_id]
+          - entity: raw_payments
+            path: db/olist_order_payments_dataset.csv
+            keys: [order_id]
+          - entity: raw_reviews
+            path: db/olist_order_reviews_dataset.csv
+            keys: [review_id]
+          - entity: raw_geolocation
+            path: db/olist_geolocation_dataset.csv
+            keys: [zip_code_prefix]
+          - entity: raw_category_translation
+            path: db/product_category_name_translation.csv
+            keys: [product_category_name]
+  loaders:
+    - name: target-bigquery
+      variant: z3z1ma
+      pip_url: git+https://github.com/z3z1ma/target-bigquery.git
+      config:
+        project: # your project name
+        dataset: olist_raw
+        write_disposition: WRITE_TRUNCATE
+        location: US
+        credentials_path: # your service account
+        default_target_schema: olist_raw
+        max_buffer_size: 2000
+        max_retries: 5
+        timeout_seconds: 600
