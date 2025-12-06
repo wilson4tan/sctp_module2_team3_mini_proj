@@ -50,7 +50,7 @@ Tech stack:
 ## 1. Local dev environment created and reproducible.
     # create environment or resue conda bde
 ```bash
-    conda acrivate dbe
+    conda activate dbe
 ```
 ## 2. Run local db creation.
     # you will see a mini_proj.db create in db/ folder
