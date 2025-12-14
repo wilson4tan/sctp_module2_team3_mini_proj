@@ -3,9 +3,10 @@ WITH source AS (
 )
 
 SELECT
-    order_id,
-    payment_sequential,
-    payment_type,
-    payment_installments,
-    CAST(payment_value AS NUMERIC) as payment_value
+    JSON_EXTRACT_SCALAR(data, '$.order_id') AS order_id,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.payment_sequential'), '') AS INT64) AS payment_sequential,
+    JSON_EXTRACT_SCALAR(data, '$.payment_type') AS payment_type,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.payment_installments'), '') AS INT64) AS payment_installments,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.payment_value'), '') AS NUMERIC) AS payment_value
+
 FROM source

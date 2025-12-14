@@ -3,18 +3,17 @@ WITH source AS (
 )
 
 SELECT
-    -- ID
-    order_id,
-    customer_id,
+    -- Extract fields from the data JSON
+    JSON_EXTRACT_SCALAR(data, '$.order_id') AS order_id,
+    JSON_EXTRACT_SCALAR(data, '$.customer_id') AS customer_id,
+    JSON_EXTRACT_SCALAR(data, '$.order_status') AS order_status,
 
-    -- Status
-    order_status,
-
-    -- Timestamps (convert BigQuery to TIMESTAMP)
-    CAST(order_purchase_timestamp AS TIMESTAMP) AS order_purchase_at,
-    CAST(order_approved_at AS TIMESTAMP) AS order_approved_at,
-    CAST(order_delivered_carrier_date AS TIMESTAMP) AS order_delivered_carrier_at,
-    CAST(order_delivered_customer_date AS TIMESTAMP) AS order_delivered_customer_at,
-    CAST(order_estimated_delivery_date AS TIMESTAMP) AS order_estimated_delivery_at
+    -- Extract the time string and convert it to TIMESTAMP
+    -- If it is an empty string '', NULLIF will convert it to NULL to avoid CAST errors
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.order_purchase_timestamp'), '') AS TIMESTAMP) AS order_purchase_at,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.order_approved_at'), '') AS TIMESTAMP) AS order_approved_at,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.order_delivered_carrier_date'), '') AS TIMESTAMP) AS order_delivered_carrier_at,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.order_delivered_customer_date'), '') AS TIMESTAMP) AS order_delivered_customer_at,
+    CAST(NULLIF(JSON_EXTRACT_SCALAR(data, '$.order_estimated_delivery_date'), '') AS TIMESTAMP) AS order_estimated_delivery_at
 
 FROM source
