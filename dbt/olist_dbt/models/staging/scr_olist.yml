@@ -2,16 +2,15 @@ version: 2
 
 sources:
   - name: olist_raw
-    description: "Raw Olist E-commerce data loaded from CSVs via Meltano"
-    database: my-project-sctp-module-2  # your project ID
-    schema: olist_raw                   # Bigquery Dataset
+    database: my-project-ntu-478012
+    schema: olist_raw
     tables:
       - name: raw_customers
-      - name: raw_geolocation
+      - name: raw_orders
       - name: raw_order_items
       - name: raw_payments
       - name: raw_products
-      - name: raw_reviews
       - name: raw_sellers
-      - name: raw_orders
+      - name: raw_reviews
       - name: raw_category_translation
+      - name: raw_geolocation
