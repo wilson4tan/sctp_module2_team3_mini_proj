@@ -6,225 +6,55 @@ environments:
 - name: staging
 - name: prod
 
-project_id: dsai-test
+project_id: olist_pipeline
 
 plugins:
   extractors:
-  - name: tap-csv
-    variant: meltanolabs
-    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
-    config:
-      files:
-        - entity: customer
-          path: db/olist_customers_dataset.csv
-          keys: [customer_unique_id]
-        - entity: geolocation
-          path: db/olist_geolocation_dataset.csv
-          keys: [geolocation_zip_code_prefix]
-        - entity: order_items
-          path: db/olist_order_items_dataset.csv
-          keys: [order_id]
-        - entity: order_payments
-          path: db/olist_order_payments_dataset.csv
-          keys: [order_id]
-        - entity: order_reviews
-          path: db/olist_order_reviews_dataset.csv
-          keys: [review_id]
-        - entity: orders
-          path: db/olist_orders_dataset.csv
-          keys: [order_id]
-        - entity: products
-          path: db/olist_products_dataset.csv
-          keys: [product_id]
-        - entity: sellers
-          path: db/olist_sellers_dataset.csv
-          keys: [seller_id]
-      # usused for prod , dev stage tinkering
-      # - entity: raw_orders
-      #   path: db/olist_orders_dataset_clean.csv
-      #   keys: [order_id]
-        # columns:
-        # - name: order_id
-        #   type: string
-        # - name: customer_id
-        #   type: string
-        # - name: order_status
-        #   type: string
-        # - name: order_purchase_timestamp
-        #   type: string
-        # - name: order_approved_at
-        #   type: string
-        # - name: order_delivered_carrier_date
-        #   type: string
-        # - name: order_delivered_customer_date
-        #   type: string
-        # - name: order_estimated_delivery_date
-        #   type: string
-
-        # - entity: raw_order_items
-        #   path: db/olist_order_items_dataset.csv
-        #   keys: [order_id, order_item_id]
-        #   columns:
-        #     - name: order_id
-        #       type: string
-        #     - name: order_item_id
-        #       type: integer
-        #     - name: product_id
-        #       type: string
-        #     - name: seller_id
-        #       type: string
-        #     - name: shipping_limit_date
-        #       type: datetime
-        #     - name: price
-        #       type: number
-        #     - name: freight_value
-        #       type: number
-
-        # - entity: raw_products
-        #   path: db/olist_products_dataset.csv
-        #   keys: [product_id]
-        #   columns:
-        #     - name: product_id
-        #       type: string
-        #     - name: product_category_name
-        #       type: string
-        #     - name: product_name_lenght
-        #       type: integer
-        #     - name: product_description_lenght
-        #       type: integer
-        #     - name: product_photos_qty
-        #       type: integer
-        #     - name: product_weight_g
-        #       type: integer
-        #     - name: product_length_cm
-        #       type: integer
-        #     - name: product_height_cm
-        #       type: integer
-        #     - name: product_width_cm
-        #       type: integer
-        # - entity: raw_sellers
-        #   path: db/olist_sellers_dataset.csv
-        #   keys: [seller_id]
-        #   columns:
-        #     - name: seller_id
-        #       type: string
-        #     - name: seller_zip_code_prefix
-        #       type: integer
-        #     - name: seller_city
-        #       type: string
-        #     - name: seller_state
-        #       type: string
-
-        # - entity: raw_payments
-        #   path: db/olist_order_payments_dataset.csv
-        #   keys: [order_id, payment_sequential]
-        #   columns:
-        #     - name: order_id
-        #       type: string
-        #     - name: payment_sequential
-        #       type: integer
-        #     - name: payment_type
-        #       type: string
-        #     - name: payment_installments
-        #       type: integer
-        #     - name: payment_value
-        #       type: number
-
-        # - entity: raw_reviews
-        #   path: db/olist_order_reviews_dataset.csv
-        #   keys: [review_id]
-        #   columns:
-        #     - name: review_id
-        #       type: string
-        #     - name: order_id
-        #       type: string
-        #     - name: review_score
-        #       type: integer
-        #     - name: review_comment_title
-        #       type: string
-        #     - name: review_comment_message
-        #       type: string
-        #     - name: review_creation_date
-        #       type: datetime
-        #     - name: review_answer_timestamp
-        #       type: datetime
-
-        # - entity: raw_geolocation
-        #   path: db/olist_geolocation_dataset.csv
-        #   keys: [geolocation_zip_code_prefix]
-        #   columns:
-        #     - name: geolocation_zip_code_prefix
-        #       type: integer
-        #     - name: geolocation_lat
-        #       type: number
-        #     - name: geolocation_lng
-        #       type: number
-        #     - name: geolocation_city
-        #       type: string
-        #     - name: geolocation_state
-        #       type: string
-
-        # - entity: raw_customers
-        #   path: db/olist_customers_dataset.csv
-        #   keys: [customer_id]
-        #   columns:
-        #     - name: customer_id
-        #       type: string
-        #     - name: customer_unique_id
-        #       type: string
-        #     - name: customer_zip_code_prefix
-        #       type: integer
-        #     - name: customer_city
-        #       type: string
-        #     - name: customer_state
-        #       type: string
-
-  # - name: tap-file
-  #   variant: airbyte
-  #   pip_url: git+https://github.com/MeltanoLabs/tap-airbyte-wrapper.git
-  #   config:
-  #     # file_path: db/olist_orders_dataset_clean.csv
-  #     # config:
-  #     files:
-  #     - path: db/olist_orders_dataset_clean.csv
-  #       format: csv
-  #       table_name: raw_orders
-  #       delimiter: ','
-  #       quotechar: '"'
-  #       primary_keys: [order_id]
-  #       columns:
-  #       - name: order_id
-  #         type: string
-  #       - name: customer_id
-  #         type: string
-  #       - name: order_status
-  #         type: string
-  #       - name: order_purchase_timestamp
-  #         type: string
-  #       - name: order_approved_at
-  #         type: string
-  #       - name: order_delivered_carrier_date
-  #         type: string
-  #       - name: order_delivered_customer_date
-  #         type: string
-  #       - name: order_estimated_delivery_date
-  #         type: string
+    - name: tap-csv
+      variant: meltanolabs
+      pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+      config:
+        infer_schema: true
+        schema_inference_limit: 5000
+        files:
+          - entity: raw_orders
+            path: db/olist_orders_dataset.csv
+            keys: [order_id]
+          - entity: raw_order_items
+            path: db/olist_order_items_dataset.csv
+            keys: [order_id, order_item_id]
+          - entity: raw_customers
+            path: db/olist_customers_dataset.csv
+            keys: [customer_id]
+          - entity: raw_products
+            path: db/olist_products_dataset.csv
+            keys: [product_id]
+          - entity: raw_sellers
+            path: db/olist_sellers_dataset.csv
+            keys: [seller_id]
+          - entity: raw_payments
+            path: db/olist_order_payments_dataset.csv
+            keys: [order_id]
+          - entity: raw_reviews
+            path: db/olist_order_reviews_dataset.csv
+            keys: [review_id]
+          - entity: raw_geolocation
+            path: db/olist_geolocation_dataset.csv
+            keys: [zip_code_prefix]
+          - entity: raw_category_translation
+            path: db/product_category_name_translation.csv
+            keys: [product_category_name]
   loaders:
-  - name: target-bigquery
-    variant: z3z1ma
-    pip_url: git+https://github.com/z3z1ma/target-bigquery.git
-    config:
-      batch_size: 104857600
-      credentials_path: "{{ env_var('TARGET_BIGQUERY_CREDENTIALS_PATH') }}"
-      dataset: "{{ env_var('DBT_TARGET_SCHEMA') }}"
-      # look at the following rows to check why data is ingested properly in this config
-      denormalized: true
-      flattening_enabled: true
-      flattening_max_depth: 1
-      method: batch_job
-      project: "{{ env_var('TARGET_BIGQUERY_PROJECT_ID') }}"
-      overwrite: true
-  transformers:
-  - name: dbt
-    variant: dbt-labs
-    pip_url: dbt-core~=1.3.0 dbt-bigquery~=1.3.0
+    - name: target-bigquery
+      variant: z3z1ma
+      pip_url: git+https://github.com/z3z1ma/target-bigquery.git
+      config:
+        project: # your project name
+        dataset: olist_raw
+        write_disposition: WRITE_TRUNCATE
+        location: US
+        credentials_path: # your service account
+        default_target_schema: olist_raw
+        max_buffer_size: 2000
+        max_retries: 5
+        timeout_seconds: 600
