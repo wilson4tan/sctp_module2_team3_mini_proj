@@ -49,11 +49,18 @@ plugins:
       variant: z3z1ma
       pip_url: git+https://github.com/z3z1ma/target-bigquery.git
       config:
+<<<<<<< HEAD
         project: ${GCP_PROJECT_ID}
         dataset: olist_raw
         write_disposition: WRITE_TRUNCATE
         location: US
         credentials_path: ${GCP_CREDENTIALS_PATH}
+=======
+        project: project-dsai-2025-11-12
+        dataset: olist_raw
+        write_disposition: WRITE_TRUNCATE
+        location: US
+>>>>>>> b5466ed (Update Meltano config and delivery analysis notebook)
         default_target_schema: olist_raw
         max_buffer_size: 2000
         max_retries: 5
